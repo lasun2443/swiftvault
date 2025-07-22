@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #121212;
+      background-size: cover;
+      height: 100vh;
+      color: white;
+      font-family: "Agbalumo", system-ui;
+    }
+
+    .card {
+      background-color: white;
+      color: black;
+    }
+
+    .card .text-muted {
+      color: #ccc !important;
+    }
+
+    .card .text-dark {
+      color: #fff !important;
+    }
+
+    .form-control {
+      background-color: #222;
+      color: white;
+      border: 1px solid #444;
+    }
+
+    .form-control::placeholder {
+      color: #aaa;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg bg-white shadow-sm py-3">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold text- fs-4" href="dashboard.html">SWIFT VAULT💰</a>
+      <div class="d-flex align-items-center">
+        <button class="btn btn-danger rounded-pill px-4" id="logOut">Log Out</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <div class="container-fluid p-4">
+      <div class="card shadow-lg p-4 rounded-4 mx-auto">
+        <h3 class="text-center mb-2 text-muted">Welcome, <span id="userName"></span>!</h3>
+
+        
+        <h2 class="text-center mb-3 text fw-bold" id="myScreen"></h2>
+
+        <div class="bg-dark rounded-3 py-3 px-4 mb-4 shadow-sm">
+          <h6 class="text-muted text-center mb-2">Account Number</h6>
+          <h3 class="text-center text-light fw-bold" id="actNumber"></h3>
+        </div>
+
+        
+       
+        <div class="mb-4">
+          <input type="number" class="form-control text-center " id="amountInput"
+          placeholder="Enter amount" />
+        </div>
+        
+        
+        <div class="text-center mb-4">
+          <p class="text-muted fw-semibold mb-1">Account Balance</p>
+          <h2 class="text fw-bold">₦<span id="accountBalance">0</span></h2>
+        </div>
+        
+        <div class="d-flex justify-content-center flex-wrap gap-3">
+          <button class="btn btn-success rounded-pill px-4 shadow-sm" onclick="deposit()">Deposit</button>
+          <button class="btn btn-danger rounded-pill px-4 shadow-sm" onclick="withdraw()">Withdraw</button>
+          <a href="transaction.html" class="btn btn-outline-primary rounded-pill px-4 shadow-sm">View Transactions</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>
