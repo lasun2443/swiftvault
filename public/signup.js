@@ -39,7 +39,7 @@ function generateAccountNumber() {
 }
 
 
-async function writeUserData(user) {
+export async function writeUserData(user) {
   const userRef = ref(db, "users/" + user.uid);
   const snapshot = await get(userRef);
   if (!snapshot.exists()) {

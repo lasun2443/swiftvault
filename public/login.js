@@ -14,7 +14,9 @@ import {
   updateDoc,
   arrayUnion,
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js";
-import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+import { getDatabase } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
+
+import { writeUserData } from "./signup.js";
 
 // ✅ Firebase config
 const firebaseConfig = {
@@ -33,22 +35,25 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const realDb = getDatabase(app);
 
-
 document.getElementById("googleSignIn").addEventListener("click", (e) => {
   e.preventDefault();
   const provider = new GoogleAuthProvider();
   signInWithPopup(auth, provider)
     .then(async (result) => {
       const user = result.user;
-      await createUserIfFirstLogin(user);
-      window.location.href = "dashboard.html";
+      await createUserIfFirstLogin(user)
+        .then(() => (window.location.href = "dashboard.html"))
+        .catch((error) => {
+          console.error("Error signing in with Google:", error);
+          document.getElementById("errorMsg").innerText =
+            "Google Sign-In Failed";
+        });
     })
     .catch((error) => {
       console.error("Error signing in with Google:", error);
       document.getElementById("errorMsg").innerText = "Google Sign-In Failed";
     });
 });
-
 
 document.getElementById("loginForm").addEventListener("submit", function (e) {
   e.preventDefault();
@@ -74,15 +79,12 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
         error.code === "auth/user-not-found" ||
         error.code === "auth/wrong-password"
       ) {
-        errorMsg.innerHTML =
-          "Invalid email or password. Please try again.";
+        errorMsg.innerHTML = "Invalid email or password. Please try again.";
       } else {
-        errorMsg.innerHTML =
-          "An error occurred. Please try again later.";
+        errorMsg.innerHTML = "An error occurred. Please try again later.";
       }
     });
 });
-
 
 async function createUserIfFirstLogin(user) {
   const userRef = doc(db, "users", user.uid);
@@ -106,7 +108,6 @@ async function createUserIfFirstLogin(user) {
     console.log("User already exists in Firestore");
   }
 }
-
 
 function generateAccountNumber() {
   return Math.floor(1000000000 + Math.random() * 9000000000).toString();
@@ -135,7 +136,6 @@ window.deposit = async function () {
   document.getElementById("depositAmount").value = "";
   alert(`₦{amount} deposited successfully`);
 
-  
   const updatedSnap = await getDoc(userRef);
   renderTransactions(updatedSnap.data().transactions);
 };
